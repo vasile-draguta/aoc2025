@@ -33,11 +33,48 @@ fn solve1(rotations: &[String]) -> i32 {
     result
 }
 
+fn solve2(rotations: &[String]) -> i32 {
+    let mut result = 0;
+    let mut dial = 50;
+    let mut num: i32;
+
+    for rotation in rotations {
+        num = rotation[1..].parse().unwrap();
+
+        if let Some(first_char) = rotation.chars().nth(0) {
+            if first_char == 'L' {
+                for _ in 0..num {
+                    dial = dial - 1;
+                    if dial == -1 {
+                        dial = 99
+                    }
+                    if dial == 0 {
+                        result += 1
+                    }
+                }
+            } else {
+                for _ in 0..num {
+                    dial = dial + 1;
+                    if dial == 100 {
+                        dial = 0
+                    }
+                    if dial == 0 {
+                        result += 1
+                    }
+                }
+            }
+        }
+    }
+
+    result
+}
+
 fn main() {
     let input = "src/input.txt".to_string();
     let mut rotations: Vec<String> = Vec::new();
     read_input(input, &mut rotations);
 
-    let result = solve1(&rotations);
-    println!("{result}")
+    let result1 = solve1(&rotations);
+    let result2 = solve2(&rotations);
+    println!("Result1: {result1}\nResult2: {result2}")
 }
